@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+env/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# AWS
+*.pem
+*.key
+.aws/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Data
+data/raw/*
+data/processed/*
+!data/sample/
+*.csv
+*.joblib
+*.txt
+*.tar.gz
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# n8n
+n8n/.n8n/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Secrets
+secrets.yaml
+credentials.json

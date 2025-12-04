@@ -1,0 +1,47 @@
+{
+  "name": "Fraud Email Alert System",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fraud-test",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.item.json.body || $input.item.json;\n\nconst emailBody = `Bonjour,\n\nUne transaction frauduleuse a été détectée.\n\nDÉTAILS :\n- Transaction : #${input.transaction_id}\n- Montant : $${input.amount}\n- Score : ${input.risk_score}/100\n- Niveau : ${input.risk_level}\n\nCordialement,\nSystème de Détection de Fraude`;\n\nconst subject = `🚨 ALERTE FRAUDE ${input.risk_level} - Transaction #${input.transaction_id}`;\n\nreturn [{\n  json: {\n    email_subject: subject,\n    email_body: emailBody,\n    to_email: \"votre-email@example.com\",\n    transaction_id: input.transaction_id,\n    risk_level: input.risk_level\n  }\n}];"
+      },
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply-fraud@n8n.io",
+        "toEmail": "={{$json.to_email}}",
+        "subject": "={{$json.email_subject}}",
+        "emailFormat": "text",
+        "text": "={{$json.email_body}}"
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{"node": "Code", "type": "main", "index": 0}]]
+    },
+    "Code": {
+      "main": [[{"node": "Send Email", "type": "main", "index": 0}]]
+    }
+  }
+}
